@@ -1,0 +1,3 @@
+steps:
+  - label: "Checkout code"
+    command: echo Hello world

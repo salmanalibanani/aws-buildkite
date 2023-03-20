@@ -1,0 +1,16 @@
+steps:
+  - label: "Checkout code"
+    plugins:
+      - "git#v3.9.1":
+          clone: "{{ pipeline.repository }}"
+  - label: "Build application"
+    command: "msbuild MyWebFormsApp.sln /p:Configuration=Release"
+    artifact_paths: "MyWebFormsApp/bin/Release/**/*"
+  - label: "Deploy to IIS"
+    plugins:
+      - "iis#v1.1.0":
+          website: "MyWebFormsApp"
+          physical_path: "C:\\inetpub\\wwwroot\\MyWebFormsApp"
+          app_pool: "DefaultAppPool"
+          bindings: "http://localhost:80/"
+          artifact_paths: "MyWebFormsApp/bin/Release/**/*"
